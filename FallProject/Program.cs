@@ -10,11 +10,11 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace FallProject {
     public class Program {
-        private const           string              Prefix = "!";
-        private  string              Token { get; set; }
-        private                 DiscordSocketClient _client;
-        private                 CommandService      _commands;
-        private                 IServiceProvider    _services;
+        private const string              Prefix = "!";
+        private       DiscordSocketClient _client;
+        private       CommandService      _commands;
+        private       IServiceProvider    _services;
+        private       string              Token { get; set; }
 
         private static void Main(string[] args) => new Program().RunBotAsync()
                                                                 .GetAwaiter()
@@ -22,7 +22,7 @@ namespace FallProject {
 
 
         public async Task RunBotAsync() {
-            Token = System.IO.File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "token.txt"));
+            Token     = File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "token.txt"));
             _client   = new DiscordSocketClient();
             _commands = new CommandService();
             _services = new ServiceCollection()
