@@ -5,7 +5,7 @@ using Discord.Commands;
 namespace FallProject.Commands {
     public class EightBall : ModuleBase<SocketCommandContext> {
         // Responses from https://en.wikipedia.org/wiki/Magic_8-Ball 
-        private readonly string[] possibleAnswers = {
+        private readonly string[] _possibleAnswers = {
                                                         "It is certain.", " It is decidedly so.", " Without a doubt.",
                                                         " Yes - definitely.", " You may rely on it.",
                                                         " As I see it, yes.", " Most likely.", " Outlook good.",
@@ -28,7 +28,7 @@ namespace FallProject.Commands {
             }
 
             // Whatever i say is a lie.
-            await ReplyAsync(possibleAnswers[new Random().Next(0, possibleAnswers.Length)]);
+            await ReplyAsync(_possibleAnswers[new Random().Next(0, _possibleAnswers.Length)]);
         }
     }
 }

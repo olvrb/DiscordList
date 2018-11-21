@@ -6,7 +6,7 @@ namespace FallProject.Commands {
     public class Animate : ModuleBase<SocketCommandContext> {
         [Command("animate")]
         [Alias("anim", "a")]
-        public async Task AnimateCommand(int Timeout, string input) {
+        public async Task AnimateCommand(int timeout, string input) {
             if (input.Length > 10) {
                 // Avoid getting rate-limited by Discord.
                 await ReplyAsync("Message too long.");
@@ -18,7 +18,7 @@ namespace FallProject.Commands {
             foreach (char c in charArr) {
                 // Edit message to the current char.
                 await message.ModifyAsync(m => m.Content = c.ToString());
-                await Task.Delay(Timeout);
+                await Task.Delay(timeout);
             }
 
             await message.ModifyAsync(m => m.Content = "Done :tada:.");

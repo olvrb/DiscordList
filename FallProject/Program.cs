@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
+using System.Runtime.ConstrainedExecution;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Addons.Interactive;
@@ -16,13 +17,14 @@ namespace FallProject {
         private       IServiceProvider    _services;
         private       string              Token { get; set; }
 
+        // ReSharper disable once UnusedParameter.Local
         private static void Main(string[] args) => new Program().RunBotAsync()
                                                                 .GetAwaiter()
                                                                 .GetResult();
 
-
         public async Task RunBotAsync() {
             Token     = File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "token.txt"));
+            Console.WriteLine(Token);
             _client   = new DiscordSocketClient();
             _commands = new CommandService();
             _services = new ServiceCollection()

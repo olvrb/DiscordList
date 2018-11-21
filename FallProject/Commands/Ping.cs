@@ -7,7 +7,7 @@ namespace FallProject.Commands {
         [Command("ping")]
         public async Task PingAsync() {
             RestUserMessage message = await Context.Channel.SendMessageAsync("Ping?");
-            message.ModifyAsync(msg =>
+            await message.ModifyAsync(msg =>
                                     msg.Content =
                                         $"Pong! Current ping is {message.CreatedAt - Context.Message.CreatedAt}");
         }
