@@ -23,7 +23,7 @@ namespace FallProject.Commands {
                 for (int i = 0; i < options.Length; i++) {
                     // Current selection will be marked with an arrow.
                     if (currentIndex == i) {
-                        sendString += $"+ {options[i]}\n <-";
+                        sendString += $"+ {options[i]} <-\n";
                     }
                     else {
                         sendString += $"- {options[i]}\n";
