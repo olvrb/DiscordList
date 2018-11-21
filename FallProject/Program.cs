@@ -23,7 +23,7 @@ namespace FallProject {
                                                                 .GetResult();
 
         public async Task RunBotAsync() {
-            Token     = File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "token.txt"));
+            Token     = File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "token.txt")).Trim();
             Console.WriteLine(Token);
             _client   = new DiscordSocketClient();
             _commands = new CommandService();
