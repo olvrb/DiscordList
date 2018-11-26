@@ -9,6 +9,7 @@ namespace FallProject.Commands {
     public class ReactList : InteractiveBase<SocketCommandContext> {
         // "NextMessageAsync" has blocking calls, so the method has to be run in asynchronous mode.
         [Command("list", RunMode = RunMode.Async)]
+        
         public async Task ReactListCommand(params string[] options) {
             bool            hasSelectedValue = false;
             int             currentIndex     = 0;
@@ -23,9 +24,11 @@ namespace FallProject.Commands {
                 for (int i = 0; i < options.Length; i++) {
                     // Current selection will be marked with an arrow.
                     if (currentIndex == i) {
+                        // With the `diff` tag, + will be green
                         sendString += $"+ {options[i]} <-\n";
                     }
                     else {
+                        // and - will be red.
                         sendString += $"- {options[i]}\n";
                     }
                 }
@@ -38,7 +41,7 @@ namespace FallProject.Commands {
                 // Get input from user.
                 SocketMessage msg = await NextMessageAsync();
 
-                // Delete the command the user gave.
+                // Delete the command the user gave (note: this doesn't delete the msg variable, so i can still access its content).
                 await msg.DeleteAsync();
 
                 switch (msg.Content.ToLower()) {

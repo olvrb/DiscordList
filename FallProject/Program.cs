@@ -7,6 +7,8 @@ using Discord;
 using Discord.Addons.Interactive;
 using Discord.Commands;
 using Discord.WebSocket;
+using FallProject.Models;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace FallProject {
@@ -54,6 +56,7 @@ namespace FallProject {
 
 
         private async Task HandleCommandAsync(SocketMessage arg) {
+            await StoreMessage(arg);
             SocketUserMessage message = arg as SocketUserMessage;
             if (message is null || message.Author.IsBot || message.Author.IsWebhook) {
                 return;
@@ -71,6 +74,16 @@ namespace FallProject {
                 if (!res.IsSuccess) {
                     Console.WriteLine(res.ErrorReason);
                 }
+            }
+        }
+
+        // Log all messages in a database for the future :).
+        private async Task StoreMessage(SocketMessage message) {
+            Message newMessage = new Message();
+            newMessage.createOrUpdate(message);
+            using (var db = new fallprojectContext()) {
+                db.Add(newMessage);
+                await db.SaveChangesAsync();
             }
         }
     }
