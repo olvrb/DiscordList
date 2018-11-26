@@ -369,5 +369,6 @@ ASALocalRun/
 .localhistory/
 
 
-# token
+# config
 FallProject/token.txt
+FallProject/db.txt
