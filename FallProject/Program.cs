@@ -1,14 +1,12 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
-using System.Runtime.ConstrainedExecution;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Addons.Interactive;
 using Discord.Commands;
 using Discord.WebSocket;
 using FallProject.Models;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace FallProject {
@@ -35,7 +33,8 @@ namespace FallProject {
                         .BuildServiceProvider();
 
             _client.Log += Log;
-
+            _client.MessageUpdated += MessageEdit;
+            
             await RegisterCommandsAsync();
 
             await _client.LoginAsync(TokenType.Bot, Token);
@@ -56,7 +55,7 @@ namespace FallProject {
 
 
         private async Task HandleCommandAsync(SocketMessage arg) {
-            await StoreMessage(arg);
+            await StoreMessage(message: arg);
             SocketUserMessage message = arg as SocketUserMessage;
             if (message is null || message.Author.IsBot || message.Author.IsWebhook) {
                 return;
@@ -77,13 +76,20 @@ namespace FallProject {
             }
         }
 
+        private async Task MessageEdit(Cacheable<IMessage, ulong> before, SocketMessage message, ISocketMessageChannel channel) {
+            using (fallprojectContext context = new fallprojectContext()) {
+                
+                // We can do this inline since we won't use the context anymore.
+                await Message.Update(new SocketCommandContext(_client, message as SocketUserMessage), context);
+            }
+        }
+
         // Log all messages in a database for the future :).
         private async Task StoreMessage(SocketMessage message) {
-            Message newMessage = new Message();
-            newMessage.createOrUpdate(message);
-            using (var db = new fallprojectContext()) {
-                db.Add(newMessage);
-                await db.SaveChangesAsync();
+            using (fallprojectContext context = new fallprojectContext()) {
+                
+                // We can do this inline since we won't use the context anymore.
+                await Message.Create(new SocketCommandContext(_client, message as SocketUserMessage), context);
             }
         }
     }
