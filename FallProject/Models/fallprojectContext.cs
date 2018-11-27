@@ -8,12 +8,12 @@ namespace FallProject.Models {
         public fallprojectContext(DbContextOptions<fallprojectContext> options)
             : base(options) { }
 
-        public virtual DbSet<Message> Message { get; set; }
+        public virtual DbSet<Message>     Message      { get; set; }
         public virtual DbSet<GuildMember> GuildMembers { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
             if (!optionsBuilder.IsConfigured) {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+                // db.txt contains a valid connection string.
                 optionsBuilder.UseNpgsql(File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "db.txt"))
                                              .Trim());
             }

@@ -23,6 +23,9 @@ namespace FallProject {
                                                                 .GetResult();
 
         public async Task RunBotAsync() {
+            // Load the bot token from token.txt.
+            // I know there are better ways to do configuration files, but this was the fastest and easiest I could think of
+            // (same goes for the database connection string).
             Token     = File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "token.txt")).Trim();
             _client   = new DiscordSocketClient();
             _commands = new CommandService();
@@ -32,9 +35,9 @@ namespace FallProject {
                         .AddSingleton<InteractiveService>()
                         .BuildServiceProvider();
 
-            _client.Log += Log;
+            _client.Log            += Log;
             _client.MessageUpdated += MessageEdit;
-            
+
             await RegisterCommandsAsync();
 
             await _client.LoginAsync(TokenType.Bot, Token);
@@ -55,7 +58,7 @@ namespace FallProject {
 
 
         private async Task HandleCommandAsync(SocketMessage arg) {
-            await StoreMessage(message: arg);
+            await StoreMessage(arg);
             SocketUserMessage message = arg as SocketUserMessage;
             if (message is null || message.Author.IsBot || message.Author.IsWebhook) {
                 return;
@@ -76,9 +79,9 @@ namespace FallProject {
             }
         }
 
-        private async Task MessageEdit(Cacheable<IMessage, ulong> before, SocketMessage message, ISocketMessageChannel channel) {
+        private async Task MessageEdit(Cacheable<IMessage, ulong> before, SocketMessage message,
+                                       ISocketMessageChannel      channel) {
             using (fallprojectContext context = new fallprojectContext()) {
-                
                 // We can do this inline since we won't use the context anymore.
                 await Message.Update(new SocketCommandContext(_client, message as SocketUserMessage), context);
             }
@@ -87,7 +90,6 @@ namespace FallProject {
         // Log all messages in a database for the future :).
         private async Task StoreMessage(SocketMessage message) {
             using (fallprojectContext context = new fallprojectContext()) {
-                
                 // We can do this inline since we won't use the context anymore.
                 await Message.Create(new SocketCommandContext(_client, message as SocketUserMessage), context);
             }

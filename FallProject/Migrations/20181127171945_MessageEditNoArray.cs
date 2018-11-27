@@ -1,32 +1,28 @@
 ﻿using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace FallProject.Migrations
-{
-    public partial class MessageEditNoArray : Migration
-    {
-        protected override void Up(MigrationBuilder migrationBuilder)
-        {
+namespace FallProject.Migrations {
+    public partial class MessageEditNoArray : Migration {
+        protected override void Up(MigrationBuilder migrationBuilder) {
             migrationBuilder.DropColumn(
-                name: "Edits",
-                table: "message");
+                                        "Edits",
+                                        "message");
 
             migrationBuilder.AddColumn<string>(
-                name: "EditsAsString",
-                table: "message",
-                nullable: true);
+                                               "EditsAsString",
+                                               "message",
+                                               nullable: true);
         }
 
-        protected override void Down(MigrationBuilder migrationBuilder)
-        {
+        protected override void Down(MigrationBuilder migrationBuilder) {
             migrationBuilder.DropColumn(
-                name: "EditsAsString",
-                table: "message");
+                                        "EditsAsString",
+                                        "message");
 
             migrationBuilder.AddColumn<List<string>>(
-                name: "Edits",
-                table: "message",
-                nullable: true);
+                                                     "Edits",
+                                                     "message",
+                                                     nullable: true);
         }
     }
 }
