@@ -2,10 +2,10 @@
 using Microsoft.EntityFrameworkCore;
 
 namespace FallProject.Models {
-    public class fallprojectContext : DbContext {
-        public fallprojectContext() { }
+    public class FallprojectContext : DbContext {
+        public FallprojectContext() { }
 
-        public fallprojectContext(DbContextOptions<fallprojectContext> options)
+        public FallprojectContext(DbContextOptions<FallprojectContext> options)
             : base(options) { }
 
         public virtual DbSet<Message>     Message      { get; set; }

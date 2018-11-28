@@ -81,18 +81,13 @@ namespace FallProject {
 
         private async Task MessageEdit(Cacheable<IMessage, ulong> before, SocketMessage message,
                                        ISocketMessageChannel      channel) {
-            using (fallprojectContext context = new fallprojectContext()) {
-                // We can do this inline since we won't use the context anymore.
-                await Message.Update(new SocketCommandContext(_client, message as SocketUserMessage), context);
-            }
+            // We can do this inline since we won't use the context anymore.
+            await Message.Update(new SocketCommandContext(_client, message as SocketUserMessage));
         }
 
         // Log all messages in a database for the future :).
         private async Task StoreMessage(SocketMessage message) {
-            using (fallprojectContext context = new fallprojectContext()) {
-                // We can do this inline since we won't use the context anymore.
-                await Message.Create(new SocketCommandContext(_client, message as SocketUserMessage), context);
-            }
+            await Message.Create(new SocketCommandContext(_client, message as SocketUserMessage));
         }
     }
 }

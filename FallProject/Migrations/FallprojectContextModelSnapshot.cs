@@ -3,11 +3,12 @@
 using FallProject.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace FallProject.Migrations {
-    [DbContext(typeof(fallprojectContext))]
-    internal class fallprojectContextModelSnapshot : ModelSnapshot {
+    [DbContext(typeof(FallprojectContext))]
+    internal class FallprojectContextModelSnapshot : ModelSnapshot {
         protected override void BuildModel(ModelBuilder modelBuilder) {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,7 +22,15 @@ namespace FallProject.Migrations {
 
                                                                       b.Property<string>("GuildId");
 
-                                                                      b.Property<string>("UnmuteAt");
+                                                                      b.Property<decimal>("UnmuteAt")
+                                                                       .HasConversion(new ValueConverter<decimal,
+                                                                                          decimal
+                                                                                      >(v => default(decimal),
+                                                                                        v => default(decimal),
+                                                                                        new
+                                                                                            ConverterMappingHints(precision: 20,
+                                                                                                                  scale
+                                                                                                                  : 0)));
 
                                                                       b.HasKey("Id");
 
