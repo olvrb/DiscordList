@@ -5,22 +5,22 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FallProject.Models {
     public class Message {
-        public string Id            { get; set; }
+        public ulong Id            { get; set; }
         public string Content       { get; set; }
-        public string ChannelId     { get; set; }
-        public string GuildId       { get; set; }
-        public string AuthorId      { get; set; }
+        public ulong ChannelId     { get; set; }
+        public ulong GuildId       { get; set; }
+        public ulong AuthorId      { get; set; }
         public string EditsAsString { get; set; }
 
         public static async Task Create(SocketCommandContext context) {
             using (FallprojectContext dbContext = new FallprojectContext()) {
                 // Add the message to the database.
-                await dbContext.Message.AddAsync(new Message {
+                await dbContext.Messages.AddAsync(new Message {
                                                                  Content   = context.Message.Content,
-                                                                 Id        = context.Message.Id.ToString(),
-                                                                 ChannelId = context.Message.Channel.Id.ToString(),
-                                                                 GuildId   = context.Guild.Id.ToString(),
-                                                                 AuthorId  = context.Message.Author.Id.ToString()
+                                                                 Id        = context.Message.Id,
+                                                                 ChannelId = context.Message.Channel.Id,
+                                                                 GuildId   = context.Guild.Id,
+                                                                 AuthorId  = context.Message.Author.Id
                                                              });
                 await dbContext.SaveChangesAsync();
             }
@@ -33,7 +33,7 @@ namespace FallProject.Models {
          */
         public static async Task Update(SocketCommandContext context) {
             using (FallprojectContext dbContext = new FallprojectContext()) {
-                Message msg = await dbContext.Message.SingleOrDefaultAsync(x => x.Id == context.Message.Id.ToString());
+                Message msg = await dbContext.Messages.SingleOrDefaultAsync(x => x.Id == context.Message.Id);
                 // Encoding to base64 to guarantee there are no commas, since that's what we're splitting it by later.
                 msg.EditsAsString += $"{context.Message.Content.Base64Encode()},";
                 await dbContext.SaveChangesAsync();

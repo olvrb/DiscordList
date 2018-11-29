@@ -23,7 +23,7 @@ namespace FallProject {
                                                                 .GetResult();
 
         public async Task RunBotAsync() {
-            // Load the bot token from token.txt.
+            // Load the Discord token from token.txt.
             // I know there are better ways to do configuration files, but this was the fastest and easiest I could think of
             // (same goes for the database connection string).
             Token     = File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "token.txt")).Trim();
@@ -34,7 +34,8 @@ namespace FallProject {
                         .AddSingleton(_commands)
                         .AddSingleton<InteractiveService>()
                         .BuildServiceProvider();
-
+            
+            // Bind event listeners.
             _client.Log            += Log;
             _client.MessageUpdated += MessageEdit;
 
@@ -43,6 +44,8 @@ namespace FallProject {
             await _client.LoginAsync(TokenType.Bot, Token);
 
             await _client.StartAsync();
+            
+            // Don't, stop me now...
             await Task.Delay(-1);
         }
 
@@ -51,7 +54,7 @@ namespace FallProject {
             return Task.CompletedTask;
         }
 
-        public async Task RegisterCommandsAsync() {
+        private async Task RegisterCommandsAsync() {
             _client.MessageReceived += HandleCommandAsync;
             await _commands.AddModulesAsync(Assembly.GetEntryAssembly());
         }
@@ -87,7 +90,9 @@ namespace FallProject {
 
         // Log all messages in a database for the future :).
         private async Task StoreMessage(SocketMessage message) {
-            await Message.Create(new SocketCommandContext(_client, message as SocketUserMessage));
+            SocketCommandContext context = new SocketCommandContext(_client, message as SocketUserMessage);
+            await Message.Create(context);
+            await GuildMember.CreateOrUpdate(context.Guild.CurrentUser);
         }
     }
 }

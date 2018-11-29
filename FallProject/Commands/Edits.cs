@@ -11,9 +11,9 @@ using Microsoft.EntityFrameworkCore;
 namespace FallProject.Commands {
     public class Edits : ModuleBase<SocketCommandContext> {
         [Command("edits")]
-        public async Task EditsCommand(string messageId) {
+        public async Task EditsCommand(ulong messageId) {
             using (FallprojectContext dbContext = new FallprojectContext()) {
-                Message msg = await dbContext.Message.FirstOrDefaultAsync(x => x.Id == messageId);
+                Message msg = await dbContext.Messages.FirstOrDefaultAsync(x => x.Id == messageId);
                 if (msg == null) {
                     await ReplyAsync("Invalid message.");
                     return;

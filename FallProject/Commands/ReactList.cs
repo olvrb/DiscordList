@@ -67,6 +67,7 @@ namespace FallProject.Commands {
                         break;
                     }
                     default: {
+                        // Delete after a second.
                         await ReplyAndDeleteAsync("Invalid command.", timeout: TimeSpan.FromMilliseconds(1000));
                         break;
                     }

@@ -8,7 +8,7 @@ namespace FallProject.Models {
         public FallprojectContext(DbContextOptions<FallprojectContext> options)
             : base(options) { }
 
-        public virtual DbSet<Message>     Message      { get; set; }
+        public virtual DbSet<Message>     Messages      { get; set; }
         public virtual DbSet<GuildMember> GuildMembers { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {

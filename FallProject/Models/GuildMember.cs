@@ -1,17 +1,32 @@
 using System.Threading.Tasks;
 using Discord.WebSocket;
+using Microsoft.EntityFrameworkCore;
 
 namespace FallProject.Models {
     public class GuildMember {
-        public string Id       { get; set; }
-        public string GuildId  { get; set; }
-        public ulong  UnmuteAt { get; set; }
+        public ulong Id       { get; set; }
+        public ulong GuildId  { get; set; }
+        public ulong UnmuteAt { get; set; }
+        public ulong Xp       { get; set; }
 
         public static async Task CreateOrUpdate(SocketGuildUser member) {
             using (FallprojectContext dbContext = new FallprojectContext()) {
-                GuildMember dbMember = new GuildMember
-                                       {Id = member.Id.ToString(), GuildId = member.Guild.Id.ToString(), UnmuteAt = 0};
-                await dbContext.GuildMembers.AddAsync(dbMember);
+                GuildMember oldMember =
+                    await dbContext.GuildMembers.FirstOrDefaultAsync(x => x.Id      == member.Id &&
+                                                                          x.GuildId == member.Guild.Id);
+                if (oldMember == null) {
+                    oldMember = new GuildMember {
+                                                    Id       = member.Id,
+                                                    GuildId  = member.Guild.Id,
+                                                    UnmuteAt = 0,
+                                                    Xp = 0
+                                                };
+                    await dbContext.GuildMembers.AddAsync(oldMember);
+                }
+                else {
+                    
+                }
+
                 await dbContext.SaveChangesAsync();
             }
         }

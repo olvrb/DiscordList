@@ -9,7 +9,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FallProject.Migrations
 {
     [DbContext(typeof(FallprojectContext))]
-    [Migration("20181128095026_InitialCreate")]
+    [Migration("20181128111330_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -22,12 +22,17 @@ namespace FallProject.Migrations
 
             modelBuilder.Entity("FallProject.Models.GuildMember", b =>
                 {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<decimal>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasConversion(new ValueConverter<decimal, decimal>(v => default(decimal), v => default(decimal), new ConverterMappingHints(precision: 20, scale: 0)));
 
-                    b.Property<string>("GuildId");
+                    b.Property<decimal>("GuildId")
+                        .HasConversion(new ValueConverter<decimal, decimal>(v => default(decimal), v => default(decimal), new ConverterMappingHints(precision: 20, scale: 0)));
 
                     b.Property<decimal>("UnmuteAt")
+                        .HasConversion(new ValueConverter<decimal, decimal>(v => default(decimal), v => default(decimal), new ConverterMappingHints(precision: 20, scale: 0)));
+
+                    b.Property<decimal>("Xp")
                         .HasConversion(new ValueConverter<decimal, decimal>(v => default(decimal), v => default(decimal), new ConverterMappingHints(precision: 20, scale: 0)));
 
                     b.HasKey("Id");
@@ -37,15 +42,16 @@ namespace FallProject.Migrations
 
             modelBuilder.Entity("FallProject.Models.Message", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<decimal>("Id")
+                        .HasConversion(new ValueConverter<decimal, decimal>(v => default(decimal), v => default(decimal), new ConverterMappingHints(precision: 20, scale: 0)))
                         .HasColumnName("id");
 
-                    b.Property<string>("AuthorId")
-                        .IsRequired()
+                    b.Property<decimal>("AuthorId")
+                        .HasConversion(new ValueConverter<decimal, decimal>(v => default(decimal), v => default(decimal), new ConverterMappingHints(precision: 20, scale: 0)))
                         .HasColumnName("authorid");
 
-                    b.Property<string>("ChannelId")
-                        .IsRequired()
+                    b.Property<decimal>("ChannelId")
+                        .HasConversion(new ValueConverter<decimal, decimal>(v => default(decimal), v => default(decimal), new ConverterMappingHints(precision: 20, scale: 0)))
                         .HasColumnName("channelid");
 
                     b.Property<string>("Content")
@@ -54,8 +60,8 @@ namespace FallProject.Migrations
 
                     b.Property<string>("EditsAsString");
 
-                    b.Property<string>("GuildId")
-                        .IsRequired()
+                    b.Property<decimal>("GuildId")
+                        .HasConversion(new ValueConverter<decimal, decimal>(v => default(decimal), v => default(decimal), new ConverterMappingHints(precision: 20, scale: 0)))
                         .HasColumnName("guildid");
 
                     b.HasKey("Id");
