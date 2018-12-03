@@ -29,7 +29,7 @@ namespace FallProject.Models {
         /*
          * EntityFramework (more like, postgres' lack of array support) only support primitive types, such as string and int, therefore I can't have EditsAsString as a List, which is what I would have preferred.
          * Instead, I encode the string to base64, and separate the edits by a comma, so I can easily decode them.
-         * Other libraries such as TypeORM use this method, see https://github.com/typeorm/typeorm/issues/460#issuecomment-299813000.
+         * Other libraries such as TypeORM use this method and call them simple-arrays, see https://github.com/typeorm/typeorm/issues/460#issuecomment-299813000.
          */
         public static async Task Update(SocketCommandContext context) {
             using (FallprojectContext dbContext = new FallprojectContext()) {

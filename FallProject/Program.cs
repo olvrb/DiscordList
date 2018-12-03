@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -7,6 +8,7 @@ using Discord.Addons.Interactive;
 using Discord.Commands;
 using Discord.WebSocket;
 using FallProject.Models;
+using FallProject.Utilities;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace FallProject {
@@ -17,6 +19,17 @@ namespace FallProject {
         private       IServiceProvider    _services;
         private       string              Token { get; set; }
 
+        /* SimpleList tests */
+        // public static void Main(string[] args) {
+        //     SimpleList list = new SimpleList(new List<string> { "test", "test2" });
+        //     list.Add("test3");
+        //     list.Remove("test1");
+        //     foreach (var l in list.GetList()) {
+        //         Console.WriteLine(l);
+        //     }
+        // }
+        
+        
         // ReSharper disable once UnusedParameter.Local
         private static void Main(string[] args) => new Program().RunBotAsync()
                                                                 .GetAwaiter()
