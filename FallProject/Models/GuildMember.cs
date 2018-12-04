@@ -19,12 +19,9 @@ namespace FallProject.Models {
                                                     Id       = member.Id,
                                                     GuildId  = member.Guild.Id,
                                                     UnmuteAt = 0,
-                                                    Xp = 0
+                                                    Xp       = 0
                                                 };
                     await dbContext.GuildMembers.AddAsync(oldMember);
-                }
-                else {
-                    
                 }
 
                 await dbContext.SaveChangesAsync();

@@ -1,26 +1,34 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace FallProject.Utilities {
     public class SimpleList {
-        private string ListAsStrings;
-
-        private List<string> SetList(List<string> input) {
-            ListAsStrings = input.Select(Base64Utilities.Base64Encode).Aggregate((x, y) => $"{x},{y},");
-            ListAsStrings.Remove(ListAsStrings.Length - 1);
-            Console.WriteLine(ListAsStrings);
-            return GetList();
-        }
-
-        public List<string> GetList() => ListAsStrings.Split(",").Select(Base64Utilities.Base64Decode).ToList();
+        private string _listAsStrings;
 
         public SimpleList(List<string> input) {
             SetList(input);
         }
 
+        private List<string> SetList(List<string> input) {
+            _listAsStrings = input
+                             .Select(Base64Utilities.Base64Encode)
+                             // Not sure why I'm not using Join here.
+                             .Aggregate((x, y) => $"{x},{y},")
+                             .Trim();
+            return GetList();
+        }
+
+        // LINQ is beautiful.
+        public List<string> GetList() => _listAsStrings
+                                         .Split(",")
+                                         // Remove empty indexes.
+                                         .Where(x => !string.IsNullOrEmpty(x))
+                                         // Decode each index from base64.
+                                         .Select(Base64Utilities.Base64Decode)
+                                         .ToList();
+
         public List<string> Add(string item) {
-            ListAsStrings += $"{item.Base64Encode()},";
+            _listAsStrings += $"{item.Base64Encode()},";
             return GetList();
         }
 
