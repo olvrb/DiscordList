@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -7,6 +8,8 @@ namespace FallProject.Utilities {
 
         private List<string> SetList(List<string> input) {
             ListAsStrings = input.Select(Base64Utilities.Base64Encode).Aggregate((x, y) => $"{x},{y},");
+            ListAsStrings.Remove(ListAsStrings.Length - 1);
+            Console.WriteLine(ListAsStrings);
             return GetList();
         }
 

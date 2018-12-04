@@ -20,20 +20,20 @@ namespace FallProject {
         private       string              Token { get; set; }
 
         /* SimpleList tests */
-        // public static void Main(string[] args) {
-        //     SimpleList list = new SimpleList(new List<string> { "test", "test2" });
-        //     list.Add("test3");
-        //     list.Remove("test1");
-        //     foreach (var l in list.GetList()) {
-        //         Console.WriteLine(l);
-        //     }
-        // }
+        public static void Main(string[] args) {
+            SimpleList list = new SimpleList(new List<string> { "test", "test2" });
+            list.Add("test3");
+            //list.Remove("test1");
+            foreach (var l in list.GetList()) {
+                Console.WriteLine(l);
+            }
+        }
         
         
         // ReSharper disable once UnusedParameter.Local
-        private static void Main(string[] args) => new Program().RunBotAsync()
-                                                                .GetAwaiter()
-                                                                .GetResult();
+        // private static void Main(string[] args) => new Program().RunBotAsync()
+        //                                                         .GetAwaiter()
+        //                                                         .GetResult();
 
         public async Task RunBotAsync() {
             // Load the Discord token from token.txt.
