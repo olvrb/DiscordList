@@ -21,9 +21,10 @@ namespace FallProject {
 
         /* SimpleList tests */
         // public static void Main(string[] args) {
-        //     SimpleList list = new SimpleList(new List<string> {"test1", "test2"});
+        //     SimpleList list = new SimpleList(SimpleList.GetListFromBase64SimpleList("b2w=,b2wy,b2wyMw=="));
         //     list.Add("test3");
         //     list.Remove("test1");
+        //     Console.WriteLine(list.GetRawList());
         //     foreach (string l in list.GetList()) {
         //         Console.WriteLine(l);
         //     }

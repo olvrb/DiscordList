@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -5,7 +6,12 @@ namespace FallProject.Utilities {
     public class SimpleList {
         private string _listAsStrings;
 
-        public SimpleList(List<string> input) {
+        // TODO: find alternative to dynamic type.
+        public SimpleList(dynamic input) {
+            if (!(input is string) && !(input is List<string>)) {
+                throw new ArgumentException("Only accepts string or List<string>.");
+            }
+
             SetList(input);
         }
 
@@ -27,6 +33,8 @@ namespace FallProject.Utilities {
                                          .Select(Base64Utilities.Base64Decode)
                                          .ToList();
 
+        public string GetRawList() => _listAsStrings;
+
         public List<string> Add(string item) {
             _listAsStrings += $"{item.Base64Encode()},";
             return GetList();
@@ -38,6 +46,16 @@ namespace FallProject.Utilities {
             // It really does not matter if the method fails to remove the item.
             tempList.Remove(item);
             return SetList(tempList);
+        }
+
+        public static List<string> CreateListFromBase64SimpleList(string input) {
+            return input
+                   .Split(",")
+                   // Remove empty indexes.
+                   .Where(x => !string.IsNullOrEmpty(x))
+                   // Decode each index from base64.
+                   .Select(Base64Utilities.Base64Decode)
+                   .ToList();
         }
     }
 }

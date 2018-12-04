@@ -5,23 +5,23 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FallProject.Models {
     public class Message {
-        public ulong  Id            { get; set; }
+        public ulong Id            { get; set; }
         public string Content       { get; set; }
-        public ulong  ChannelId     { get; set; }
-        public ulong  GuildId       { get; set; }
-        public ulong  AuthorId      { get; set; }
+        public ulong ChannelId     { get; set; }
+        public ulong GuildId       { get; set; }
+        public ulong AuthorId      { get; set; }
         public string EditsAsString { get; set; }
 
         public static async Task Create(SocketCommandContext context) {
             using (FallprojectContext dbContext = new FallprojectContext()) {
                 // Add the message to the database.
                 await dbContext.Messages.AddAsync(new Message {
-                                                                  Content   = context.Message.Content,
-                                                                  Id        = context.Message.Id,
-                                                                  ChannelId = context.Message.Channel.Id,
-                                                                  GuildId   = context.Guild.Id,
-                                                                  AuthorId  = context.Message.Author.Id
-                                                              });
+                                                                 Content   = context.Message.Content,
+                                                                 Id        = context.Message.Id,
+                                                                 ChannelId = context.Message.Channel.Id,
+                                                                 GuildId   = context.Guild.Id,
+                                                                 AuthorId  = context.Message.Author.Id
+                                                             });
                 await dbContext.SaveChangesAsync();
             }
         }

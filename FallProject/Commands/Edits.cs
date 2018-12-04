@@ -26,18 +26,17 @@ namespace FallProject.Commands {
                     return;
                 }
 
+                SimpleList list = new SimpleList(SimpleList.CreateListFromBase64SimpleList(msg.EditsAsString));
+
+
                 EmbedBuilder builder = new EmbedBuilder().WithAuthor(Context.Client.CurrentUser.Username,
                                                                      Context.Client.CurrentUser.GetAvatarUrl())
                                                          .WithTimestamp(DateTimeOffset.Now)
                                                          .WithColor(Color.Red)
                                                          .WithTitle($"Edits for message with ID {messageId} from {author.Username}")
                                                          // I'm sorry.
-                                                         .WithDescription(string
-                                                                              .Join(Environment.NewLine,
-                                                                                    msg.EditsAsString.Split(",")
-                                                                                       // Decode every string.
-                                                                                       .Select(Base64Utilities
-                                                                                                   .Base64Decode)));
+                                                         .WithDescription(string.Join(Environment.NewLine,
+                                                                                      list.GetList()));
                 await Context.Channel.SendMessageAsync("", false, builder.Build());
             }
         }
