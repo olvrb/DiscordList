@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -8,7 +7,6 @@ using Discord.Addons.Interactive;
 using Discord.Commands;
 using Discord.WebSocket;
 using FallProject.Models;
-using FallProject.Utilities;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace FallProject {
@@ -81,7 +79,7 @@ namespace FallProject {
                 return;
             }
 
-
+            // Where the arguments start.
             int argPos = 0;
 
             // Make sure the message starts with the prefix, or mentions the CurrentUser

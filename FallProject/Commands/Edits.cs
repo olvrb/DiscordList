@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
@@ -34,7 +33,6 @@ namespace FallProject.Commands {
                                                          .WithTimestamp(DateTimeOffset.Now)
                                                          .WithColor(Color.Red)
                                                          .WithTitle($"Edits for message with ID {messageId} from {author.Username}")
-                                                         // I'm sorry.
                                                          .WithDescription(string.Join(Environment.NewLine,
                                                                                       list.GetList()));
                 await Context.Channel.SendMessageAsync("", false, builder.Build());
